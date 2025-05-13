@@ -1,0 +1,19 @@
+{
+  "name": "IoT Platform",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "node-red",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [1880, 1883, 27017],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker"
+      ]
+    },
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers-extra/features/mongosh-homebrew:1": {}
+	}
+  }
+}

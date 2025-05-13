@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"          # MQTT port
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"        # MongoDB port
+    volumes:
+      - mongodb_data:/data/db  # Persistent storage
+
+  node-red:
+    image: nodered/node-red
+    ports:
+      - "1880:1880"          # Node-RED editor port
+    volumes:
+      - ./node-red:/data     # Mounts flows and settings
+    depends_on:
+      - mosquitto
+      - mongodb
+
+volumes:
+  mongodb_data:              # Named volume for MongoDB data

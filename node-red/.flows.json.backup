@@ -1,0 +1,267 @@
+[
+    {
+        "id": "62e62c3a652c54f2",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8096dbb9e53c5aaf",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f9fa3cee580e1513",
+        "type": "mongodb",
+        "hostname": "mongodb",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": 27017,
+        "db": "iot_data",
+        "name": ""
+    },
+    {
+        "id": "300822dd84563c8c",
+        "type": "mongodb4-client",
+        "name": "",
+        "protocol": "mongodb",
+        "hostname": "mongodb",
+        "port": "27017",
+        "dbName": "iot_data",
+        "appName": "",
+        "authSource": "",
+        "authMechanism": "DEFAULT",
+        "tls": false,
+        "tlsCAFile": "",
+        "tlsCertificateKeyFile": "",
+        "tlsInsecure": false,
+        "connectTimeoutMS": "30000",
+        "socketTimeoutMS": "0",
+        "minPoolSize": "0",
+        "maxPoolSize": "100",
+        "maxIdleTimeMS": "0",
+        "uri": "",
+        "advanced": "{}",
+        "uriTabActive": "tab-uri-simple"
+    },
+    {
+        "id": "94a34047f35ea0eb",
+        "type": "mqtt in",
+        "z": "62e62c3a652c54f2",
+        "name": "",
+        "topic": "sensors/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "8096dbb9e53c5aaf",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "534f49c0907ad9c6",
+                "b2e0dbeca0da7a1d",
+                "14d832a9ec1ff871"
+            ]
+        ]
+    },
+    {
+        "id": "534f49c0907ad9c6",
+        "type": "debug",
+        "z": "62e62c3a652c54f2",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "b2e0dbeca0da7a1d",
+        "type": "mongodb out",
+        "z": "62e62c3a652c54f2",
+        "d": true,
+        "mongodb": "f9fa3cee580e1513",
+        "name": "",
+        "collection": "sensor_readings",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "insert",
+        "x": 630,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e5d4d9c53bff6610",
+        "type": "inject",
+        "z": "62e62c3a652c54f2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"temp\":\"17\"}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "90501bcaf00b22ed"
+            ]
+        ]
+    },
+    {
+        "id": "90501bcaf00b22ed",
+        "type": "mqtt out",
+        "z": "62e62c3a652c54f2",
+        "name": "",
+        "topic": "sensors/temperature",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8096dbb9e53c5aaf",
+        "x": 340,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "782e456098419aa5",
+        "type": "mongodb in",
+        "z": "62e62c3a652c54f2",
+        "mongodb": "f9fa3cee580e1513",
+        "name": "",
+        "collection": "sensor_readings",
+        "operation": "find",
+        "x": 390,
+        "y": 380,
+        "wires": [
+            [
+                "f1b4550649873d97"
+            ]
+        ]
+    },
+    {
+        "id": "b991542af0d9401f",
+        "type": "inject",
+        "z": "62e62c3a652c54f2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "temp",
+        "payloadType": "str",
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "782e456098419aa5"
+            ]
+        ]
+    },
+    {
+        "id": "f1b4550649873d97",
+        "type": "debug",
+        "z": "62e62c3a652c54f2",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "14d832a9ec1ff871",
+        "type": "mongodb4",
+        "z": "62e62c3a652c54f2",
+        "clientNode": "300822dd84563c8c",
+        "mode": "collection",
+        "collection": "sensor_readings",
+        "operation": "insertOne",
+        "output": "forEach",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "17221232a29bbeed"
+            ]
+        ]
+    },
+    {
+        "id": "17221232a29bbeed",
+        "type": "debug",
+        "z": "62e62c3a652c54f2",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 320,
+        "wires": []
+    }
+]
